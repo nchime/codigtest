@@ -1,10 +1,6 @@
 package com.chime.codingtest;
 import java.util.Scanner;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 /**
  * 최대공약수/최소공배수 구하기 
  * @author chimeX430
@@ -12,80 +8,72 @@ import org.slf4j.LoggerFactory;
  */
 public class gcd_lcm_AG {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(gcd_lcm_AG.class);
-
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
-
-		int inputVal1 = 0; 
-		int inputVal2 = 0;
 		
-/*		// 두 수 입력 받는 루틴 
+		// TODO 입력값이 양의 정수가 아닐 경우 예외 처리 
+		// TODO 3개 이상의 수 입력 받아서 동일 결과 나오도록..  
+		
+
 		Scanner in = new Scanner(System.in);
-		System.out.println("두 수를 입력하세요.. ");
-		
-		inputVal1 = in.nextInt();  
-		inputVal2 = in.nextInt();
-*/		
-		
-		// 일정 범위의 난수 정수값 받는 루틴 
-		inputVal1 = (int) (Math.random() * 100);  
-		inputVal2 = (int) (Math.random() * 100);		
-		
+		System.out.println("두 수를 입력하시오(양의 정수)");
 
-		logger.info(inputVal1 + " " + inputVal2 + " 에 대한.. ");
+		int input[] = new int[2];
 
-		int gcd = getGCDAlgo2(inputVal1, inputVal2);
-		logger.info("최대공약수 : " + gcd);
-
-		int lcm = getLCMAlgo1(inputVal1, inputVal2);
-		logger.info("최소공배수 : " + lcm);
-
-	}
-
-	/**
-	 * @param i
-	 * @param j
-	 * @return 
-	 * 알고리즘 : 최소공배수 : 두 수를 곱한 값을 최대공약수로 나눈다.
-	 */
-	private static int getLCMAlgo1(int i, int j) {
-
-		return (i * j) / getGCDAlgo1(i, j);
-	}
-
-	/**
-	 * 최대공약수 알고리즘1 : 두 수를 비교하여 두 수가 일치할때까지 큰 수에서 작은 수를 뺀 값으로 반복 대입한다.
-	 * @param i
-	 * @param j
-	 * @return 
-	 *  
-	 */
-	private static int getGCDAlgo1(int i, int j) {
-
-		int a = i, b = j;
-
-		while (a != b) {
-			if (a > b)
-				a = a - b;
-			if (b > a)
-				b = b - a;
+		for (int i = 0; i < input.length; i++) {
+			input[i] = in.nextInt();
+			// System.out.println(input[i]);
 		}
+		
+		/*
+		 * 최대공약수의 정의
+		 * 두 수중 작은 수를 기준으로 1씩 줄여가면서 두 수 모두 나누어 떨어지는 수
+		 * 
+		 * 최소공배수의 정의 
+		 * 두 수의 배수가 일치하는 제일 첫번째 값 
+		 *   
+		*/
+		//  두 수의 최대 공약수 
+		long gcdNum = gcd(input[0], input[1]); 
+		System.out.println("최대공약수 : " + gcdNum);
+		
+		// 두 수의 최소공배수 
+		long lcmNum = lcm(input[0], input[1]); 
+		System.out.println("최소공배수 : " + lcmNum);
+		
+	} 
 
-		return a;
-	}
-	
-	
-	
+
+
 	/**
-	 * 최대공약수  알고리즘 2 :  
+	 * 최소공배수 구하기 
 	 * @param i
 	 * @param j
 	 * @return
 	 */
-	private static int getGCDAlgo2(int i, int j) {
+	private static long lcm(long i, long j) {
+		
+		long gcdNum = gcd(i, j); 
+		
+		if(gcdNum == 0 ) { 
+			return 0; 
+		} else { 
+			return Math.abs((i*j)/gcdNum); 
+		}
+		
+	}
+
+	/**
+	 * 최대공약수 구하기 
+	 * @param i
+	 * @param j
+	 * @return
+	 */
+	private static long gcd(long i, long j) {
 		while(j != 0 ) { 
-			int temp = i % j; 
+			long temp = i % j; 
 			i = j; 
 			j = temp; 
 		}
